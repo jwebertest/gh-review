@@ -1,7 +1,8 @@
 {
-  "name": "reviewweb",
+  "name": "gh-review",
   "version": "0.0.0",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "jquery": "~1.9.0",
     "backbone": "~1.0.0",
     "requirejs": "~2.1.5",
@@ -12,6 +13,5 @@
     "underscore": "~1.5.2",
     "moment": "~2.3.1",
     "underscore.string": "~2.3.3"
-  },
-  "devDependencies": {}
+  }
 }

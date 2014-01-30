@@ -5,7 +5,8 @@
   "single-instance": true,
   "window": {
     "title": "GH Review",
-    "toolbar": true,
+    "toolbar": false,
+		"frame": false,
     "width": 1024,
     "height": 700,
     "min_width": 1024,

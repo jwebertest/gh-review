@@ -1,24 +1,21 @@
 {
-  "name": "JSON-Transformer",
+  "name": "GH-Review",
   "version": "0.0.1",
   "author": "",
   "repository": {},
   "dependencies": {},
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-copy": "~0.4.1",
-    "grunt-contrib-concat": "~0.1.3",
-    "grunt-contrib-uglify": "~0.2.0",
-    "grunt-contrib-jshint": "~0.4.1",
-    "grunt-contrib-clean": "~0.4.0",
-    "grunt-contrib-less": "~0.7.0",
-    "grunt-open": "~0.2.0",
-    "grunt-contrib-rename": "0.0.3",
-    "grunt-contrib-compress": "~0.5.2",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-contrib-requirejs": "~0.4.1",
-    "load-grunt-tasks": "~0.1.3",
-    "time-grunt": "~0.1.1"
+    "gulp": "~3.5.0",
+    "gulp-util": "~2.2.13",
+    "gulp-less": "~1.2.1",
+    "gulp-minify-css": "~0.2.0",
+    "gulp-requirejs": "~0.1.3",
+    "gulp-uglify": "~0.2.0",
+    "gulp-notify": "~0.4.0",
+    "gulp-jshint": "~1.3.4",
+    "gulp-clean": "~0.2.4",
+    "event-stream": "~3.1.0",
+    "q": "~1.0.0"
   },
   "engines": {
     "node": ">=0.8.0"
