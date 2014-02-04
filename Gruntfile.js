@@ -47,21 +47,24 @@ module.exports = function (grunt) {
     },
     clean: {
       dist: {
-        files: [{
-          dot: true,
-          src: [
-            '<%= config.dist %>/*',
-            '<%= config.tmp %>/*'
-          ]
-        }]
+        files: [
+          {
+            dot: true,
+            src: [
+              '<%= config.dist %>/*'
+            ]
+          }
+        ]
       },
       dev: {
-        files: [{
-          dot: true,
-          src: [
-            '<%= config.dev %>/*'
-          ]
-        }]
+        files: [
+          {
+            dot: true,
+            src: [
+              '<%= config.dev %>/*'
+            ]
+          }
+        ]
       }
     },
     jshint: {
@@ -79,33 +82,57 @@ module.exports = function (grunt) {
           '<%= config.dev %>/css/main.css': '<%= config.app %>/css/main.less'
         }
       },
-      build: {
+      dist: {
         options: {
-          paths: ['<%= yeoman.app %>/styles'],
           yuicompress: true
         },
         files: {
-          '<%= yeoman.dist %>/styles/main.css': '/main.less'
+          '<%= config.dist %>/css/main.css': '<%= config.app %>/css/main.less'
         }
       }
     },
     copy: {
       dev: {
-        files: [{
-          expand: true,
-          cwd: '<%= config.app %>',
-          dest: '<%= config.dev %>',
-          src: '**'
-        },{
-          expand: true,
-          cwd: '<%= config.app %>/bower_components/bootstrap/dist/fonts',
-          dest: '<%= config.dev %>/fonts',
-          src: '*'
-        }]
+        files: [
+          {
+            expand: true,
+            cwd: '<%= config.app %>',
+            dest: '<%= config.dev %>',
+            src: '**'
+          },
+          {
+            expand: true,
+            cwd: '<%= config.app %>/bower_components/bootstrap/dist/fonts',
+            dest: '<%= config.dev %>/fonts',
+            src: '*'
+          }
+        ]
+      },
+      dist: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= config.app %>',
+            dest: '<%= config.dist %>',
+            src: ['img/**/*', 'templates/**/*', 'fonts/**/*', '*.html']
+          },
+          {
+            expand: true,
+            cwd: '<%= config.app %>/bower_components/bootstrap/dist/fonts',
+            dest: '<%= config.dist %>/fonts',
+            src: '*'
+          },
+          {
+            expand: true,
+            cwd: '<%= config.app %>/bower_components/requirejs',
+            dest: '<%= config.dist %>/bower_components/requirejs',
+            src: 'require.js'
+          }
+        ]
       }
     },
     requirejs: {
-      options:{
+      options: {
         loglevel: 5,
         findNestedDependencies: true,
         inlineText: true,
@@ -120,17 +147,16 @@ module.exports = function (grunt) {
             {name: 'main'}
           ]
         }
+      },
+      dist: {
+        options: {
+          out: '<%= config.dist %>/js/main.js',
+          optimize: 'uglify',
+          name: 'main'
+        }
       }
     }
   });
-
-  grunt.registerTask('dist', [
-    'jshint',
-    'clean:dist',
-    'copy:webkitDist',
-    'copy:appMacosDist',
-    'chmod'
-  ]);
 
   grunt.registerTask('devWatch', [
     'jshint',
@@ -143,13 +169,13 @@ module.exports = function (grunt) {
     'copy:appMacosDev'
   ]);
 
-  grunt.registerTask('startApp', 'Starting app for developing', function(){
+  grunt.registerTask('startApp', 'Starting app for developing', function () {
     var exec = require('child_process').exec;
     var app = exec('dev/node-webkit.app/Contents/MacOS/node-webkit');
-    app.stdout.on('data', function(msg){
+    app.stdout.on('data', function (msg) {
       grunt.log.write(msg);
     });
-    app.stderr.on('data', function(msg){
+    app.stderr.on('data', function (msg) {
       grunt.log.error(msg);
     });
   });
@@ -161,6 +187,14 @@ module.exports = function (grunt) {
     'less:dev',
     'connect:dev',
     'watch:dev'
+  ]);
+
+  grunt.registerTask('dist', [
+    'clean:dist',
+    'jshint',
+    'copy:dist',
+    'less:dist',
+    'requirejs:dist'
   ]);
 
 };
