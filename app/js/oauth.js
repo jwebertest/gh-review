@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   function OAuth2(config) {
-    this.oauthIFrame = null;
+    this.oauthPopup = null;
     this.accessTokenURL = 'https://github.com/login/oauth/access_token';
     this.headers = {};
     this.accessToken = null;
@@ -11,26 +11,20 @@
       this.clientSecret = config.clientSecret;
       this.apiScope = config.apiScope;
       this.redirectUri = config.redirectUri;
-      this.openAuthorizationCodeIframe();
+      this.openAuthorizationCodePopup();
     } else {
       this.finishAuthorization();
     }
   }
 
-  OAuth2.prototype.openAuthorizationCodeIframe = function () {
-    var body = document.getElementsByTagName('body')[0];
+  OAuth2.prototype.openAuthorizationCodePopup = function () {
     var listener = function(event){
       this.getAccessAndRefreshTokens(event.data);
-      body.removeChild(this.oauthIFrame);
+      this.oauthPopup.close();
     }.bind(this);
 
-    var iframe = document.createElement('iframe');
-    iframe.id = 'OAuthIFrame';
-    iframe.width = 0;
-    iframe.height = 0;
-    iframe.src = this.authorizationCodeURL();
-    body.appendChild(iframe);
-    this.oauthIFrame = iframe;
+
+    this.oauthPopup = window.open(this.authorizationCodeURL(), 'OAuthPopup', 'width=1024,height=768');
     if (window.addEventListener){
       window.addEventListener('message', listener, false);
     } else {
@@ -93,7 +87,7 @@
       console.error(e);
     }
 
-    window.parent.postMessage(authorizationCode, window.location.href);
+    window.opener.postMessage(authorizationCode, window.location.href);
   };
 
   OAuth2.prototype.isAccessTokenExpired = function () {
