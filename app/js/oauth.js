@@ -20,7 +20,7 @@
     } else if(authCode && typeof this.accessToken === 'undefined') {
       this.finishAuthorization(authCode);
     } else if(!authCode && typeof this.accessToken !== 'undefined') {
-      localStorage.ghreviewAccessToken = null;
+      localStorage.removeItem('ghreviewAccessToken');
       window.setTimeout(function(){
         this.onAccessTokenReceived();
       }.bind(this), 500);
@@ -81,7 +81,6 @@
   OAuth2.prototype.setAccessToken = function(response) {
     /*jshint camelcase:false*/
     localStorage.ghreviewAccessToken = response.access_token;
-    console.log(window.location.protocol + '//' + window.location.host + window.location.pathname);
     window.location.href = window.location.protocol + '//' + window.location.host + window.location.pathname;
   };
 
