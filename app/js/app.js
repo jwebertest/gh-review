@@ -19,9 +19,9 @@ define([
     this.github = new GitHub({});
     this.oauth = new OAuth({
       clientId: '5082108e53d762d90c00',
-      clientSecret: '178651f3705d7952413ff82447004171712f1950',
       apiScope: 'user, repo',
-      redirectUri: 'http://localhost:9000/githubCallback.html'
+      redirectUri: 'http://localhost:9000',
+      accessTokenUrl: 'http://safe-bayou-5591.herokuapp.com/bemdsvdsynggmvweibduvjcbgf'
     });
     this.oauth.onAccessTokenReceived = function(){
       this.github.authenticate({

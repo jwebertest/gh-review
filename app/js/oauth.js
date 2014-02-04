@@ -2,96 +2,35 @@
 (function () {
   'use strict';
   function OAuth2(config) {
-    this.oauthPopup = null;
-    this.accessTokenURL = 'https://github.com/login/oauth/access_token';
-    this.headers = {};
     this.accessToken = null;
-    if (config) {
-      this.clientId = config.clientId;
-      this.clientSecret = config.clientSecret;
-      this.apiScope = config.apiScope;
-      this.redirectUri = config.redirectUri;
-      this.openAuthorizationCodePopup();
+    this.clientId = config.clientId;
+    this.apiScope = config.apiScope;
+    this.redirectUri = config.redirectUri;
+    this.accessTokenUrl = config.accessTokenUrl;
+    var authCode = this.parseAuthorizationCode(window.location.href);
+    if(authCode){
+      this.finishAuthorization(authCode);
     } else {
-      this.finishAuthorization();
+      this.getAuthorizationCode();
     }
   }
 
-  OAuth2.prototype.openAuthorizationCodePopup = function () {
-    var listener = function(event){
-      this.getAccessAndRefreshTokens(event.data);
-      this.oauthPopup.close();
-    }.bind(this);
-
-
-    this.oauthPopup = window.open(this.authorizationCodeURL(), 'OAuthPopup', 'width=1024,height=768');
-    if (window.addEventListener){
-      window.addEventListener('message', listener, false);
-    } else {
-      window.attachEvent('onmessage', listener);
-    }
+  OAuth2.prototype.getAuthorizationCode = function(){
+    window.location.href = this.authorizationCodeURL();
   };
 
-  OAuth2.prototype.getAccessAndRefreshTokens = function (authorizationCode) {
-    var github = this;
+  OAuth2.prototype.finishAuthorization = function(authCode){
+    var oauth = this;
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', this.accessTokenURL, true);
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          github.setAccessToken(xhr.responseText);
-          github.accessTokenDate = new Date().valueOf();
+    xhr.open('POST', this.accessTokenURL(authCode), true);
+    xhr.onreadystatechange = function(){
+      if(xhr.readyState === 4){
+        if(xhr.status === 200){
+          oauth.setAccessToken(JSON.parse(xhr.responseText));
         }
       }
     };
-    var items = this.accessTokenParams(authorizationCode);
-    var key = null;
-    var formData = new FormData();
-    for (key in items) {
-      formData.append(key, items[key]);
-    }
-    xhr.setRequestHeader('Access-Control-Allow-Origin', window.location.href);
-    xhr.send(formData);
-  };
-
-  OAuth2.prototype.refreshAccessToken = function (refreshToken, callback, scope) {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function (/*event*/) {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          var obj = JSON.parse(xhr.responseText);
-          /*jshint camelcase:false*/
-          this.accessToken = obj.access_token;
-          this.expiresIn = obj.expires_in;
-          callback.call(scope ? scope : window);
-        }
-      }
-    };
-
-    var formData = new FormData();
-    formData.append('client_id', this.clientId);
-    formData.append('client_secret', this.clientSecret);
-    formData.append('refresh_token', refreshToken);
-    formData.append('grant_type', 'refresh_token');
-    xhr.open('POST', this.accessTokenURL, true);
-    xhr.send(formData);
-  };
-
-  OAuth2.prototype.finishAuthorization = function(){
-    var authorizationCode = null;
-
-    try {
-      authorizationCode = this.parseAuthorizationCode(window.location.href);
-      console.log(authorizationCode);
-    } catch (e) {
-      console.error(e);
-    }
-
-    window.opener.postMessage(authorizationCode, window.location.href);
-  };
-
-  OAuth2.prototype.isAccessTokenExpired = function () {
-    return (new Date().valueOf() - this.accessTokenDate) > this.expiresIn * 1000;
+    xhr.send(null);
   };
 
   OAuth2.prototype.authorizationCodeURL = function() {
@@ -104,25 +43,31 @@
       .replace('{{API_SCOPE}}', this.apiScope);
   };
 
+  OAuth2.prototype.accessTokenURL = function(authCode) {
+    return (this.accessTokenUrl + '?' +
+      'client_id={{CLIENT_ID}}&' +
+      'code={{CODE}}&' +
+      'scope={{API_SCOPE}}')
+      .replace('{{CLIENT_ID}}', this.clientId)
+      .replace('{{CODE}}', authCode)
+      .replace('{{API_SCOPE}}', this.apiScope);
+  };
+
   OAuth2.prototype.parseAuthorizationCode = function(url) {
     var error = url.match(/[&\?]error=([^&]+)/);
+    var code = url.match(/[&\?]code=([\w\/\-]+)/);
     if (error) {
       throw 'Error getting authorization code: ' + error[1];
     }
-    return url.match(/[&\?]code=([\w\/\-]+)/)[1];
-  };
-
-  OAuth2.prototype.accessTokenParams = function(authorizationCode) {
-    return {
-      'code': authorizationCode,
-      'client_id': this.clientId,
-      'client_secret': this.clientSecret,
-      'redirect_uri': this.redirectUri
-    };
+    if(code){
+      code = code[1];
+    }
+    return code;
   };
 
   OAuth2.prototype.setAccessToken = function(response) {
-    this.accessToken = response.match(/access_token=([^&]*)/)[1];
+    /*jshint camelcase:false*/
+    this.accessToken = response.access_token;
     this.expiresIn = Number.MAX_VALUE;
     this.onAccessTokenReceived();
   };
