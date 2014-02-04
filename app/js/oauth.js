@@ -1,19 +1,32 @@
 /*global define*/
 (function () {
   'use strict';
+
+  var localStorageAvailable = function(){
+    return (typeof localStorage !== 'undefined');
+  };
+
   function OAuth2(config) {
-    this.accessToken = null;
+    if(localStorageAvailable()){
+      this.accessToken = localStorage.ghreviewAccessToken;
+    }
     this.clientId = config.clientId;
     this.apiScope = config.apiScope;
     this.redirectUri = config.redirectUri;
     this.accessTokenUrl = config.accessTokenUrl;
     var authCode = this.parseAuthorizationCode(window.location.href);
-    if(authCode){
-      this.finishAuthorization(authCode);
-    } else {
+    if (!authCode && typeof this.accessToken === 'undefined') {
       this.getAuthorizationCode();
+    } else if(authCode && typeof this.accessToken === 'undefined') {
+      this.finishAuthorization(authCode);
+    } else if(!authCode && typeof this.accessToken !== 'undefined') {
+      localStorage.ghreviewAccessToken = null;
+      window.setTimeout(function(){
+        this.onAccessTokenReceived();
+      }.bind(this), 500);
     }
   }
+
 
   OAuth2.prototype.getAuthorizationCode = function(){
     window.location.href = this.authorizationCodeURL();
@@ -67,9 +80,9 @@
 
   OAuth2.prototype.setAccessToken = function(response) {
     /*jshint camelcase:false*/
-    this.accessToken = response.access_token;
-    this.expiresIn = Number.MAX_VALUE;
-    this.onAccessTokenReceived();
+    localStorage.ghreviewAccessToken = response.access_token;
+    console.log(window.location.protocol + '//' + window.location.host + window.location.pathname);
+    window.location.href = window.location.protocol + '//' + window.location.host + window.location.pathname;
   };
 
   OAuth2.prototype.onAccessTokenReceived = function(){};
