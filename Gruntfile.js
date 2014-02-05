@@ -10,7 +10,8 @@ module.exports = function (grunt) {
   var config = {
     app: 'app',
     dev: 'dev',
-    dist: 'dist'
+    dist: 'dist',
+    test: 'test'
   };
 
   grunt.initConfig({
@@ -154,6 +155,11 @@ module.exports = function (grunt) {
           optimize: 'uglify',
           name: 'main'
         }
+      }
+    },
+    karma: {
+      dev: {
+        configFile: '<%= config.test %>/dev.karma.conf.js'
       }
     }
   });
