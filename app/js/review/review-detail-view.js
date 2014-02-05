@@ -27,7 +27,7 @@ define([
         app.currentReviewData.repo = attributes.repo;
       }
       if(!_.isEmpty(attributes.branch)){
-        app.currentReviewData.branch = attributes.branch;
+        app.currentReviewData.sha = attributes.branch;
       }
       if(!_.isEmpty(attributes.contributor)){
         app.currentReviewData.author = attributes.contributor;
