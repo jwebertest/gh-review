@@ -3,16 +3,13 @@ define([
   'backbone',
   'underscore',
   'when',
-  'Logger',
   'OAuth',
   'GitHub'
-], function (Backbone, _, when, Logger, OAuth, GitHub) {
+], function (Backbone, _, when, OAuth, GitHub) {
   'use strict';
 
-  var logger = new Logger('app');
 
   function GHReview() {
-    logger.trace('Init Application');
     this.ajaxIndicator = null;
     this.ajaxIndicatorTimeoutId = null;
     this.ajaxIndicatorIsVisible = false;
