@@ -21,7 +21,7 @@ define([
       clientId: '5082108e53d762d90c00',
       apiScope: 'user, repo',
       redirectUri: 'http://localhost:9000',
-      accessTokenUrl: 'http://safe-bayou-5591.herokuapp.com/bemdsvdsynggmvweibduvjcbgf'
+      accessTokenUrl: 'http://gh-review.herokuapp.com/bemdsvdsynggmvweibduvjcbgf'
     });
     this.oauth.onAccessTokenReceived = function(){
       this.github.authenticate({
