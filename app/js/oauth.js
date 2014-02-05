@@ -35,7 +35,7 @@
   OAuth2.prototype.finishAuthorization = function(authCode){
     var oauth = this;
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', this.accessTokenURL(authCode), true);
+    xhr.open('POST', this.getAccessTokenURL(authCode), true);
     xhr.onreadystatechange = function(){
       if(xhr.readyState === 4){
         if(xhr.status === 200){
@@ -56,7 +56,7 @@
       .replace('{{API_SCOPE}}', this.apiScope);
   };
 
-  OAuth2.prototype.accessTokenURL = function(authCode) {
+  OAuth2.prototype.getAccessTokenURL = function(authCode) {
     return (this.accessTokenUrl + '?' +
       'client_id={{CLIENT_ID}}&' +
       'code={{CODE}}&' +
