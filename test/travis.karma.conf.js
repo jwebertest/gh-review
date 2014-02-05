@@ -16,14 +16,7 @@ module.exports = function(config) {
     ],
 
     browsers: ['PhantomJS'],
-    reporters: ['dots', 'coverage'],
-    preprocessors: {
-      'app/js/*.js': ['coverage']
-    },
-    coverageReporter: {
-      type : 'html',
-      dir : 'coverage/'
-    },
+    reporters: ['dots'],
 
     logLevel: config.LOG_INFO,
 
