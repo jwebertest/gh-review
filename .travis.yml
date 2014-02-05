@@ -4,9 +4,8 @@ node_js:
 before_script:
   - npm install -g grunt-cli
   - bower install
-script: "grunt karma:travis -v"
-  notifications:
-    email:
-      - audica-dev@freelists.org
-    on_success: change
-    on_failure: always
+notifications:
+  email:
+    - audica-dev@freelists.org
+  on_success: change
+  on_failure: always
