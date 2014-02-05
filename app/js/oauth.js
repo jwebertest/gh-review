@@ -20,10 +20,11 @@
     } else if(authCode && typeof this.accessToken === 'undefined') {
       this.finishAuthorization(authCode);
     } else if(!authCode && typeof this.accessToken !== 'undefined') {
+      var oauth = this;
       localStorage.removeItem('ghreviewAccessToken');
       window.setTimeout(function(){
-        this.onAccessTokenReceived();
-      }.bind(this), 500);
+        oauth.onAccessTokenReceived();
+      }, 500);
     }
   }
 
