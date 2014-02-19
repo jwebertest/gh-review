@@ -18,7 +18,7 @@ define(function (require) {
     view: null,
     routes: {
       '': 'root',
-      'reviews': 'reviewOverview',
+      'filter': 'filter',
       'repositories': 'repositories',
       'repository/:name': 'repoDetail',
       'review/:id': 'reviewDetail',
@@ -29,41 +29,31 @@ define(function (require) {
       'oauth/callback': 'callback',
       'whoami': 'whoami'
     },
-    reviewOverview: function () {
-      this.trigger('ajaxIndicator', true);
-      this.clear();
+    filter: function () {
+      this.prepareView('reviewLink');
       this.view = new ReviewOverview();
       this.view.render();
-      $('li[name="ghr-top-menu-links"]').removeClass('active');
-      $('#reviewLink').addClass('active');
     },
     repositories: function () {
-      this.trigger('ajaxIndicator', true);
       if (app.authenticated) {
-        this.clear();
+        this.prepareView('repositoryLink');
         this.view = new RepoView({
           collection: app.repoCollection
         });
-        $('li[name="ghr-top-menu-links"]').removeClass('active');
-        $('#repositoryLink').addClass('active');
       }
     },
     repoDetail: function (name) {
-      this.trigger('ajaxIndicator', true);
       if (app.authenticated) {
-        this.clear();
+        this.prepareView('repositoryLink');
         var model = app.repoCollection.getRepoByName(name);
         this.view = new RepoDetailView({
           model: model
         });
-        $('li[name="ghr-top-menu-links"]').removeClass('active');
-        $('#repositoryLink').addClass('active');
       }
     },
     reviewDetail: function (id) {
-      this.trigger('ajaxIndicator', true);
-      this.clear();
-      app.reviewId = id;
+      this.prepareView('reviewLink');
+      this.reviewId = id;
       var model = app.reviewCollection.get(id);
       this.view = new ReviewDetailView({
         model: model
@@ -73,24 +63,15 @@ define(function (require) {
           this.view.render();
           this.view.renderAllCommits();
         }.bind(this));
-      $('li[name="ghr-top-menu-links"]').removeClass('active');
-      $('#reviewLink').addClass('active');
     },
     showCommit: function (id) {
-      this.trigger('ajaxIndicator', true);
-      this.clear();
+      this.prepareView('reviewLink');
       var model = commitCollection.get(id);
       this.view = new CommentView({
         model: model
       });
       this.view.getDiffAndComments()
         .then(this.view.render.bind(this.view));
-    },
-    clear: function () {
-      if (this.view) {
-        this.view.remove();
-        $('<div id="main" class="container"></div>').appendTo('body');
-      }
     },
     login: loginLogout.login.bind(loginLogout),
     logout: loginLogout.logout.bind(loginLogout),
@@ -119,6 +100,18 @@ define(function (require) {
       this.clear();
       this.view = new WhoAmI();
       this.view.render();
+    },
+    clear: function () {
+      if (this.view) {
+        this.view.remove();
+        $('<div id="main" class="container"></div>').appendTo('body');
+      }
+    },
+    prepareView: function(activeLink){
+      this.trigger('ajaxIndicator', true);
+      this.clear();
+      $('li[name="ghr-top-menu-links"]').removeClass('active');
+      $('#' + activeLink).addClass('active');
     },
     initialize: function () {}
   });
