@@ -1,11 +1,10 @@
 /*global define*/
 define([
-  '../.',
+  'backbone',
   'underscore',
   'app',
-  'reviewListItemView',
-  'text!templates/review-list-item.html'
-], function (Backbone, _, app, ReviewListItemView, listItemTemplate) {
+  'text!templates/filter-list-item.html'
+], function (Backbone, _, app, listItemTemplate) {
   'use strict';
 
 // TODO
@@ -18,8 +17,9 @@ define([
 
   var FilterListView = Backbone.View.extend({
     el: '#reviewList',
+    listItemTemplate: _.template(listItemTemplate),
     events: {
-      'click li': 'showDetail',
+      'click a.list-group-item': 'showDetail',
       'click .destroy': 'clear'
     },
     fetchReviews: function(){
@@ -30,10 +30,23 @@ define([
       }
     },
     showDetail: function (event) {
-      app.router.navigate('review/' + $(event.target).data('modelid'), {trigger: true});
+      var target = $(event.target);
+      if(!target.is('a')){
+        target = target.closest('a');
+      }
+      var modelId = target.data('id');
+      app.currentFilter = this.collection.get(modelId);
+      app.router.navigate(
+        'commits/' +
+        app.currentFilter.get('owner') +
+        '/' +
+        app.currentFilter.get('repo') +
+        '/' +
+        app.currentFilter.get('branch'),
+        {trigger: true});
     },
     addOne: function (model) {
-      var view = this.template(model.toJSON());
+      var view = this.listItemTemplate(model.toJSON());
       this.$el.append(view);
     },
     addAll: function () {
