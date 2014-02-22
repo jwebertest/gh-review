@@ -6,7 +6,8 @@ define(function (require) {
   var app = require('app');
   var RepoView = require('RepoView');
   var RepoDetailView = require('repoDetailView');
-  var ReviewOverview = require('ReviewOverview');
+  var FilterOverview = require('FilterOverview');
+  var FilterModel = require('FilterModel');
   var ReviewDetailView = require('reviewDetailView');
   var commitCollection = require('commitCollection');
   var CommentView = require('CommentView');
@@ -21,7 +22,7 @@ define(function (require) {
       'filter': 'filter',
       'repositories': 'repositories',
       'repository/:name': 'repoDetail',
-      'review/:id': 'reviewDetail',
+      'commits/:owner/:repo/:branch': 'commitList',
       'commit/:id': 'showCommit',
       'login': 'login',
       'logout': 'logout',
@@ -51,10 +52,16 @@ define(function (require) {
         });
       }
     },
-    reviewDetail: function (id) {
+    commitList: function (owner, repo, branch) {
       this.prepareView('reviewLink');
-      this.reviewId = id;
-      var model = app.reviewCollection.get(id);
+      var model = app.currentFilter;
+      if(owner !== model.get('owner') || repo !== model.get('repo') || branch !== model.get('branch')){
+        model = new FilterModel({
+          owner: owner,
+          repo: repo,
+          branch: branch
+        });
+      }
       this.view = new ReviewDetailView({
         model: model
       });
