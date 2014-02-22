@@ -32,7 +32,7 @@ define(function (require) {
     },
     filter: function () {
       this.prepareView('reviewLink');
-      this.view = new ReviewOverview();
+      this.view = new FilterOverview();
       this.view.render();
     },
     repositories: function () {
