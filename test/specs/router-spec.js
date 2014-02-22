@@ -7,14 +7,14 @@ define([
   'RepoCollection',
   'RepoView',
   'repoDetailView',
-  'ReviewOverview',
-  'ReviewListView',
-  'reviewDetailView',
+  'FilterOverview',
+  'FilterListView',
+  'CommitListView',
   'CommentView',
   'OauthHandler',
   'loginLogout',
   'backboneLocalStorage'
-], function (Backbone, when, app, Router, RepoCollection, RepoView, RepoDetailView, ReviewOverview, ReviewListView, ReviewDetailView, CommentView, oauthHandler, loginLogout) {
+], function (Backbone, when, app, Router, RepoCollection, RepoView, RepoDetailView, FilterOverview, FilterListView, CommitListView, CommentView, oauthHandler, loginLogout) {
   'use strict';
 
   afterEach(function(){
@@ -45,14 +45,14 @@ define([
         routerClearSpy = null;
       });
 
-      it('.reviewOverview should init new #ReviewOverview', function () {
-        var reviewOverviewSpy = spyOn(ReviewOverview.prototype, 'initialize');
-        spyOn(ReviewOverview.prototype, 'render');
-        router.reviewOverview();
+      it('.filter should init new #FilterOverview', function () {
+        var filterOverviewSpy = spyOn(FilterOverview.prototype, 'initialize');
+        spyOn(FilterOverview.prototype, 'render');
+        router.filter();
 
         expect(routerClearSpy).toHaveBeenCalled();
-        expect(reviewOverviewSpy).toHaveBeenCalled();
-        expect(router.view instanceof ReviewOverview).toBeTruthy();
+        expect(filterOverviewSpy).toHaveBeenCalled();
+        expect(router.view instanceof FilterOverview).toBeTruthy();
 
       });
 
