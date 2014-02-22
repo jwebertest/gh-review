@@ -8,7 +8,7 @@ define(function (require) {
   var RepoDetailView = require('repoDetailView');
   var FilterOverview = require('FilterOverview');
   var FilterModel = require('FilterModel');
-  var ReviewDetailView = require('reviewDetailView');
+  var CommitListView = require('CommitListView');
   var commitCollection = require('commitCollection');
   var CommentView = require('CommentView');
   var oauthHandler = require('OauthHandler');
@@ -63,7 +63,7 @@ define(function (require) {
         });
         app.currentFilter = model;
       }
-      this.view = new ReviewDetailView({
+      this.view = new CommitListView({
         model: model
       });
       this.view.getCommits()

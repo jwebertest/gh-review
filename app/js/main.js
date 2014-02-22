@@ -32,7 +32,6 @@
       FilterListView: 'filter/filter-list-view',
       FilterOverview: 'review/filter-overview-view',
 
-      reviewDetailView: 'review/review-detail-view',
       QuickReview: 'review/review-quick-review-view',
 
       RepoModel: 'repositories/repo-model',
@@ -43,6 +42,7 @@
       commitModel: 'commits/commit-model',
       commitCollection: 'commits/commit-collection',
       commitListItemView: 'commits/commit-list-item-view',
+      CommitListView: 'commits/commit-list-view',
 
       CommentView: 'comment/comment-view',
       commentBox: 'comment/comment-box',
