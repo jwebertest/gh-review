@@ -1,11 +1,11 @@
 /*global define*/
 define([
-  '../.',
+  'backbone',
   'underscore',
   'app',
   'FilterListView',
   'QuickReview',
-  'text!templates/review-overview.html'
+  'text!templates/filter-overview.html'
 ], function(Backbone, _, app, FilterListView, QuickReview, template){
   'use strict';
 
