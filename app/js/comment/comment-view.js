@@ -24,7 +24,7 @@ define(function (require) {
       'click .approveCommit': 'approveCommit'
     },
     initialize: function(){
-      this.reviewModel = app.reviewCollection.get(app.reviewId);
+      this.filterModel = app.reviewCollection.get(app.reviewId);
     },
     getDiffAndComments: function () {
       return this.model.getDiff()
@@ -84,7 +84,7 @@ define(function (require) {
       this.$el.html(this.template({
         model: this.model.toJSON(),
         files: this.files,
-        reviewData: this.reviewModel.toJSON()
+        reviewData: this.filterModel.toJSON()
       }));
       this.renderComments();
       app.showIndicator(false);
