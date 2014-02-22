@@ -1,21 +1,16 @@
 /*global define, describe, it, expect, beforeEach, afterEach, spyOn, localStorage*/
-define([
-  'backbone',
-  'when',
-  'app',
-  'Router',
-  'RepoCollection',
-  'RepoView',
-  'repoDetailView',
-  'FilterOverview',
-  'FilterListView',
-  'CommitListView',
-  'CommentView',
-  'OauthHandler',
-  'loginLogout',
-  'backboneLocalStorage'
-], function (Backbone, when, app, Router, RepoCollection, RepoView, RepoDetailView, FilterOverview, FilterListView, CommitListView, CommentView, oauthHandler, loginLogout) {
+define(function (require) {
   'use strict';
+
+  var Backbone = require('backbone');
+  var when = require('when');
+  var app = require('app');
+  var Router = require('Router');
+  var FilterOverview = require('FilterOverview');
+  var CommentView = require('CommentView');
+  var oauthHandler = require('OauthHandler');
+  var loginLogout = require('loginLogout');
+  require('backboneLocalStorage');
 
   afterEach(function(){
     localStorage.clear();
