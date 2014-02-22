@@ -1,12 +1,13 @@
 /*global define*/
-define(['../.'], function (Backbone) {
+define(['backbone'], function (Backbone) {
   'use strict';
 
   var FilterModel = Backbone.Model.extend({
     defaults: {
+      owner: '',
       repo: '',
       contributor: '',
-      branch: '',
+      branch: 'master',
       since: {
         amount: 0,
         pattern: ''
