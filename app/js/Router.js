@@ -61,6 +61,7 @@ define(function (require) {
           repo: repo,
           branch: branch
         });
+        app.currentFilter = model;
       }
       this.view = new ReviewDetailView({
         model: model
