@@ -27,12 +27,12 @@
       chunk: 'chunk',
       TopMenuView: 'top-menu/top-menu-view',
 
-      reviewCollection: 'review/review-collection',
-      reviewItemModel: 'review/review-item-model',
-      ReviewListView: 'review/review-list-view',
-      reviewListItemView: 'review/review-list-item-view',
+      FilterCollection: 'filter/filter-collection',
+      FilterModel: 'filter/filter-model',
+      FilterListView: 'filter/filter-list-view',
+      FilterOverview: 'review/filter-overview-view',
+
       reviewDetailView: 'review/review-detail-view',
-      ReviewOverview: 'review/review-overview-view',
       QuickReview: 'review/review-quick-review-view',
 
       RepoModel: 'repositories/repo-model',
