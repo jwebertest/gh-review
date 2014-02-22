@@ -1,8 +1,8 @@
 /*global define*/
-define(['backbone'], function (Backbone) {
+define(['../.'], function (Backbone) {
   'use strict';
 
-  var ReviewItemModel = Backbone.Model.extend({
+  var FilterModel = Backbone.Model.extend({
     defaults: {
       repo: '',
       contributor: '',
@@ -16,5 +16,5 @@ define(['backbone'], function (Backbone) {
     }
   });
 
-  return ReviewItemModel;
+  return FilterModel;
 });

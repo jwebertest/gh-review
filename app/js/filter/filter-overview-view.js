@@ -1,12 +1,12 @@
 /*global define*/
 define([
-  'backbone',
+  '../.',
   'underscore',
   'app',
-  'ReviewListView',
+  'FilterListView',
   'QuickReview',
   'text!templates/review-overview.html'
-], function(Backbone, _, app, ReviewListView, QuickReview, template){
+], function(Backbone, _, app, FilterListView, QuickReview, template){
   'use strict';
 
   var ReviewOverview = Backbone.View.extend({
@@ -17,7 +17,7 @@ define([
       var quickReview = new QuickReview();
       quickReview.render();
 
-      var reviewListView = new ReviewListView({collection: app.reviewCollection});
+      var reviewListView = new FilterListView({collection: app.filterCollection});
       reviewListView.render();
       reviewListView.fetchReviews();
     }
