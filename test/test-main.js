@@ -42,12 +42,11 @@
       chunk: '../app/js/chunk',
       topMenuView: 'top-menu/top-menu-view',
 
-      reviewCollection: '../app/js/review/review-collection',
-      reviewItemModel: '../app/js/review/review-item-model',
-      ReviewListView: '../app/js/review/review-list-view',
-      reviewListItemView: '../app/js/review/review-list-item-view',
-      reviewDetailView: '../app/js/review/review-detail-view',
-      ReviewOverview: '../app/js/review/review-overview-view',
+      FilterCollection: '../app/js/filter/filter-collection',
+      FilterModel: '../app/js/filter/filter-model',
+      FilterListView: '../app/js/filter/filter-list-view',
+      FilterOverview: '../app/js/filter/filter-overview-view',
+
       QuickReview: '../app/js/review/review-quick-review-view',
 
       RepoModel: '../app/js/repositories/repo-model',
@@ -58,6 +57,7 @@
       commitModel: '../app/js/commits/commit-model',
       commitCollection: '../app/js/commits/commit-collection',
       commitListItemView: '../app/js/commits/commit-list-item-view',
+      CommitListView: '../app/js/commits/commit-list-view',
 
       CommentView: '../app/js/comment/comment-view',
       commentBox: '../app/js/comment/comment-box',

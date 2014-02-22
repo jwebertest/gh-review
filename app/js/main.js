@@ -30,7 +30,7 @@
       FilterCollection: 'filter/filter-collection',
       FilterModel: 'filter/filter-model',
       FilterListView: 'filter/filter-list-view',
-      FilterOverview: 'review/filter-overview-view',
+      FilterOverview: 'filter/filter-overview-view',
 
       QuickReview: 'review/review-quick-review-view',
 
