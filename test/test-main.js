@@ -47,7 +47,7 @@
       FilterListView: '../app/js/filter/filter-list-view',
       FilterOverview: '../app/js/filter/filter-overview-view',
 
-      QuickReview: '../app/js/review/review-quick-review-view',
+      QuickFilter: '../app/js/filter/filter-quick-view',
 
       RepoModel: '../app/js/repositories/repo-model',
       RepoCollection: '../app/js/repositories/repo-collection',

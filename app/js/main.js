@@ -32,7 +32,7 @@
       FilterListView: 'filter/filter-list-view',
       FilterOverview: 'filter/filter-overview-view',
 
-      QuickReview: 'review/review-quick-review-view',
+      QuickFilter: 'filter/filter-quick-view',
 
       RepoModel: 'repositories/repo-model',
       RepoCollection: 'repositories/repo-collection',
