@@ -50,6 +50,10 @@
       CommentModel: 'comment/comment-model',
       CommentCollection: 'comment/Comment-collection',
 
+      StatisticsOverviewView: 'statistics/statistics-overview-view',
+      StatisticView: 'statistics/statistic-view',
+      StatisticModel: 'statistics/statistic-model',
+
       UserModel: 'user-model',
 
       loginLogout: 'login/loginLogout',
