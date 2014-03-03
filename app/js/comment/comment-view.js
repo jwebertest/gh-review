@@ -10,7 +10,7 @@ define(function (require) {
     CommentBoxes = require('commentBox'),
     template = require('text!templates/commit-view.html');
 
-  var chunkHeadingRegExp = new RegExp('@@.*?[-+](\\d+)(,\\d+){0,1}\\s[-+](\\d+)(,\\d+){0,1} @@', 'g');
+  var chunkHeadingRegExp = new RegExp('^@@.*?[-+](\\d+)(,\\d+){0,1}\\s[-+](\\d+)(,\\d+){0,1} @@', 'g');
   var EditCommentBox = CommentBoxes.edit;
 
   return Backbone.View.extend({
@@ -83,7 +83,7 @@ define(function (require) {
     },
     addCommentToCollection: function (comment) {
       /*jshint camelcase:false*/
-      app.commitApproved[comment.commit_id] = true;
+      app.commitApproved[comment.sha] = true;
       app.approveComments[comment.id] = true;
       this.model.comments.add(comment);
       this.render();
