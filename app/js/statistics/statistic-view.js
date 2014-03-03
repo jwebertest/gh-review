@@ -1,4 +1,4 @@
-/*global define, crossfilter*/
+/*global define, crossfilter, d3*/
 define([
   'backbone',
   'underscore',
@@ -11,24 +11,37 @@ define([
     el: '#main',
     template: _.template(template),
     approvedPieChart: null,
+    timeLineChart: null,
     addCharts: function(){
-      var data = crossfilter(this.model.toJSON().commits);
-      var all = data.groupAll();
-      var reviewedValue = data.dimension(function (d) {
-        /*jshint camelcase:false*/
-        return d.commit.comment_count > 0;
+      var rawData = this.model.toJSON().commits;
+      _.each(rawData, function(data){
+        data.commit.date = new Date(data.commit.author.date);
+        data.commit.day = d3.time.day(data.commit.date);
       });
-      var startReviewedGroup = reviewedValue.group();
+      var data = crossfilter(rawData);
+      var all = data.groupAll();
+      var commentedCommits = data.dimension(function (data) {
+        /*jshint camelcase:false*/
+        return data.commit.comment_count > 0;
+      });
+      var commentedCommitsGroup = commentedCommits.group();
+
+      this.addPieChart(all, commentedCommits, commentedCommitsGroup);
+
+      dc.renderAll();
+    },
+    addPieChart: function(all, commentedCommits, commentedCommitsGroup){
       this.approvedPieChart  = dc.pieChart('#approved-pie-chart');
       this.approvedPieChart
-        .width(250)
-        .height(200)
+        .width(300)
+        .height(300)
         .renderLabel(true)
-        .transitionDuration(1500)
-        .dimension(reviewedValue)
-        .group(startReviewedGroup)
-        .radius(90)
+        .transitionDuration(1000)
+        .dimension(commentedCommits)
+        .group(commentedCommitsGroup)
+        .radius(120)
         .minAngleForLabel(0)
+        .colors(['#a60000','#2EC73B'])
         .label(function(d) {
           var percentage = '(' + Math.floor(d.data.value / all.value() * 100) + '%)';
           return d.data.key ? 'Reviewed: '  + percentage : 'Not Reviewed: ' + percentage;
@@ -42,8 +55,6 @@ define([
 //            {volumeChart.filter([0,5.1])}
 //          });
 //        });
-
-      dc.renderAll();
     },
     render: function(){
       this.$el.html(this.template());
